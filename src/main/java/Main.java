@@ -5,30 +5,30 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         List<Thread> threads = new ArrayList<>();
-//        int amount = 1000;
+
         String[] texts = new String[1000];
-        for (int i = 0; i < texts.length; i++){
-             texts[i] = generateRoute("RLRFR", 100);
+        for (int i = 0; i < texts.length; i++) {
+            texts[i] = generateRoute("RLRFR", 100);
         }
-        for (String text : texts){
+        for (String text : texts) {
             Thread thread = new Thread(() -> {
                 int count = 0;
-                for (int i = 0; i< text.length(); i++){
+                for (int i = 0; i < text.length(); i++) {
                     if (text.charAt(i) == 'R') count++;
                 }
-                synchronized (sizeToFreq){
-                    if (sizeToFreq.containsKey(count)){
+                synchronized (sizeToFreq) {
+                    if (sizeToFreq.containsKey(count)) {
                         sizeToFreq.put(count, sizeToFreq.get(count) + 1);
                     } else {
                         sizeToFreq.put(count, 1);
                     }
-            }
+                }
 
             });
             threads.add(thread);
             thread.start();
         }
-        for (Thread thread : threads){
+        for (Thread thread : threads) {
             thread.join();
         }
         Map.Entry<Integer, Integer> maxKey = sizeToFreq
@@ -45,6 +45,7 @@ public class Main {
                 .forEachOrdered(x -> System.out.println(x.getKey() + "( " + x.getValue() + " раз)"));
 
     }
+
     public static String generateRoute(String letters, int length) {
         Random random = new Random();
         StringBuilder route = new StringBuilder();
